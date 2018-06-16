@@ -1,27 +1,40 @@
 /*
-  SD card datalogger
+  Simple data logger for the Sparkfun LSM9DS1 IMU on an Arduino UNO with an Adafruit CC3000 wifi shield.
 
- This example shows how to log data from three analog sensors
- to an SD card using the SD library.
+  Code for logging the data is taken from example code for the SD library and code for accessing
+  IMU data is taken from example code from LSM9DS1 library, 
+  see: https://github.com/sparkfun/LSM9DS1_Breakout
 
- The circuit:
- * analog sensors on analog ins 0, 1, and 2
- * SD card attached to SPI bus as follows:
- ** MOSI - pin 11
- ** MISO - pin 12
- ** CLK - pin 13
- ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
+  Hardware setup:
+  Arduinon UNO with Adafruit CC3000 wifi shield (with SD-card)
+  Sparkfun LSM9DS1
 
- created  24 Nov 2010
- modified 9 Apr 2012
- by Tom Igoe
+  Hardware setup IMU: This library supports communicating with the
+  LSM9DS1 over either I2C or SPI. This example demonstrates how
+  to use I2C. The pin-out is as follows:
+  LSM9DS1 --------- Wifi shield
+   SCL --------------- SCL
+   SDA --------------- SDA
+   VDD --------------- 3.3V
+   GND --------------- GND
+  (CSG, CSXM, SDOG, and SDOXM should all be pulled high. 
+  Jumpers on the breakout board will do this for you.)
 
- This example code is in the public domain.
-
+  Hardware setup WiFi shield: The Arduino communicates with the
+  SD card over SPI, No wiring is neede if the Adafruit CC3000 wifi shield is used.
+  ** MOSI - pin 11
+  ** MISO - pin 12
+  ** CLK - pin 13
+  ** CS - pin 4  
  */
 
 #include <SPI.h>
 #include <SD.h>
+
+// The SFE_LSM9DS1 library requires both Wire and SPI be
+// included BEFORE including the 9DS1 library.
+#include <Wire.h>
+#include <SparkFunLSM9DS1.h>
 
 const int chipSelect = 4;
 int counter = 0;
