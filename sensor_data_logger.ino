@@ -54,7 +54,7 @@ LSM9DS1 imu;
 #define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
 
 // Sketch Output Settings //
-#define PRINT_SPEED 50 // 50 ms between prints
+#define PRINT_SPEED 10 // 10 ms between prints (at least)
 static unsigned long lastPrint = 0; // Keep track of print time
 
 
@@ -68,8 +68,8 @@ void setup() {
   imu.settings.device.commInterface = IMU_MODE_I2C;
   imu.settings.device.mAddress = LSM9DS1_M;
   imu.settings.device.agAddress = LSM9DS1_AG;
-  imu.settings.gyro.sampleRate = 2; // 59.5Hz ODR
-  imu.settings.accel.sampleRate = 2; // Set accel to 50Hz.
+  imu.settings.gyro.sampleRate = 3; // 59.5Hz ODR ??
+  imu.settings.accel.sampleRate = 3; // Set accel to 50Hz.??
   imu.settings.mag.sampleRate = 5; // Set OD rate to 20Hz
   
   // The above lines will only take effect AFTER calling
@@ -132,11 +132,11 @@ void loop() {
       dataFile.println();
       dataFile.close();
       // print to the serial port for debugging:
-      Serial.println("Written to file");
+      //Serial.println("Written to file");
     }
     // if the file isn't open, pop up an error:
     else {
-      Serial.println("error opening datalog.txt");
+      //Serial.println("error opening datalog.txt");
     }
     lastPrint = millis(); // Update lastPrint time
   }
